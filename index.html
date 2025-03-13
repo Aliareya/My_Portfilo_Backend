@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>About Information</h1>
+    <div class="container">
+        <p id="aboutData">Loading...</p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+         const aboutElement = document.getElementById("aboutData");
+         
+         fetch("https://my-portfilo-backend.onrender.com/about")
+             .then(response => {
+                 if (!response.ok) {
+                     throw new Error(`HTTP error! Status: ${response.status}`);
+                 }
+                 return response.json(); // Convert response to JSON
+             })
+             .then(data => {
+                 aboutElement.innerHTML = `
+                     <strong>Name:</strong> ${data.name} <br>
+                     <strong>Bio:</strong> ${data.bio} <br>
+                     <strong>Location:</strong> ${data.location}
+                 `;
+             })
+             .catch(error => {
+                 aboutElement.innerHTML = `<p class="error">Error fetching data: ${error.message}</p>`;
+             });
+     });
+     
+    </script>
+
+</body>
+</html>
